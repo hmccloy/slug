@@ -47,9 +47,13 @@
                                 <button class="btn btn-default saveAllRecordSlugs" title="{f:translate(key:'button.saveall.title', extensionName: slug)}">
                                     <i class="fa fa-save"></i> {f:translate(key:'button.saveall.label', extensionName: slug)}
                                 </button>
-                                <button class="btn btn-default generateAllRecordSlugs" title="{f:translate(key:'button.generateall.title', extensionName: slug)}">
-                                    <i class="fa fa-refresh"></i> {f:translate(key:'button.generateall.label', extensionName: slug)}
-                                </button>
+                                <f:if condition="{disableRefresh}">
+                                    <f:else>
+                                        <button class="btn btn-default generateAllRecordSlugs" title="{f:translate(key:'button.generateall.title', extensionName: slug)}">
+                                            <i class="fa fa-refresh"></i> {f:translate(key:'button.generateall.label', extensionName: slug)}
+                                        </button>
+                                    </f:else>
+                                </f:if>
                             </div>
                         </th>
                     </tr>
@@ -69,6 +73,9 @@
                                 <f:if condition="{titleField}">
                                     <f:then>
                                         <strong>{record.{titleField}}</strong>
+                                        <f:if condition="{addTitleField}">
+                                            ({record.{addTitleField}})
+                                        </f:if>
                                     </f:then>
                                     <f:else>
                                         <strong class="text-danger">Warning: No title field defined?</strong>
@@ -83,9 +90,13 @@
                                     <button data-uid="{record.uid}" data-table="{table}" data-slugfield="{slugField}" id="saveRecordSlug-{record.uid}" class="btn btn-default saveRecordSlug" title="{f:translate(key:'button.save.title', extensionName: slug)}">
                                         <i class="fa fa-save"></i>
                                     </button>
-                                    <button data-uid="{record.uid}" data-table="{table}" data-slugfield="{slugField}" data-titlefield="{titleField}" id="generateRecordSlug-{record.uid}" class="btn btn-default generateRecordSlug" title="{f:translate(key:'button.generate.title', extensionName: slug)}">
-                                        <i class="fa fa-refresh"></i>
-                                    </button>
+                                    <f:if condition="{disableRefresh}">
+                                        <f:else>
+                                            <button data-uid="{record.uid}" data-table="{table}" data-slugfield="{slugField}" data-titlefield="{titleField}" id="generateRecordSlug-{record.uid}" class="btn btn-default generateRecordSlug" title="{f:translate(key:'button.generate.title', extensionName: slug)}">
+                                                <i class="fa fa-refresh"></i>
+                                            </button>
+                                        </f:else>
+                                    </f:if>
                                 </div>
                             </td>
                         </tr>
