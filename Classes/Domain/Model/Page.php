@@ -1,4 +1,5 @@
 <?php
+
 namespace SIMONKOEHLER\Slug\Domain\Model;
 
 /*
@@ -6,7 +7,8 @@ namespace SIMONKOEHLER\Slug\Domain\Model;
  * https://simon-koehler.com
  */
 
-class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
 
     /**
     * @var string
@@ -14,22 +16,22 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     protected $title;
 
     /**
-    * @var integer
+    * @var int
     */
     protected $uid;
 
     /**
-    * @var integer
+    * @var int
     */
     protected $l10nParent;
 
     /**
-    * @var integer
+    * @var int
     */
     protected $doktype;
 
     /**
-    * @var integer
+    * @var int
     */
     protected $language;
 
@@ -63,7 +65,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     /**
      * Returns the uid
      *
-     * @return integer $uid
+     * @return int $uid
      */
     public function getUid()
     {
@@ -73,7 +75,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     /**
      * Returns the l10nParent
      *
-     * @return integer $l10nParent
+     * @return int $l10nParent
      */
     public function getL10nParent()
     {
@@ -83,7 +85,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     /**
      * Returns the doktype
      *
-     * @return integer $doktype
+     * @return int $doktype
      */
     public function getDoktype()
     {
@@ -93,7 +95,7 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
     /**
      * Returns the language
      *
-     * @return integer $language
+     * @return int $language
      */
     public function getLanguage()
     {
@@ -144,7 +146,6 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      * Sets the slugLock
      *
      * @param bool $slugLock
-     * @return void
      */
     public function setSlugLock($slugLock)
     {
@@ -166,8 +167,8 @@ class Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
      *
      * @return string
      */
-    public function getTitle() {
-	return $this->title;
+    public function getTitle()
+    {
+        return $this->title;
     }
-
 }

@@ -1,36 +1,39 @@
 <?php
+
 namespace SIMONKOEHLER\Slug\Domain\Repository;
+
 use SIMONKOEHLER\Slug\Utility\HelperUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /*
  * This file was created by Simon Köhler
  * https://simon-koehler.com
  */
 
-class ExtensionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class ExtensionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
 
     /**
     * @var HelperUtility
     */
     protected $helper;
 
-    public function tableExists($table){
+    public function tableExists($table)
+    {
         $tableExists = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable($table)
             ->getSchemaManager()
             ->tablesExist([$table]);
-        if($tableExists){
+        if ($tableExists) {
             return true;
         }
-        else{
-            return false;
-        }
+
+        return false;
     }
 
-    public function getAdditionalRecords($table,$filterVariables,$additionalTables) {
-
+    public function getAdditionalRecords($table, $filterVariables, $additionalTables)
+    {
         $tableConf = $additionalTables[$table];
 
         $this->helper = GeneralUtility::makeInstance(HelperUtility::class);
@@ -38,24 +41,24 @@ class ExtensionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
         $query = $queryBuilder
             ->select('*')
             ->from($table)
-            ->orderBy($filterVariables['orderby'],$filterVariables['order']);
+            ->orderBy($filterVariables['orderby'], $filterVariables['order']);
 
         // If a search key is given
-        if($filterVariables['key']){
+        if ($filterVariables['key']) {
             $query->where(
-                $queryBuilder->expr()->like($tableConf['slugField'],$queryBuilder->createNamedParameter('%' . $queryBuilder->escapeLikeWildcards($filterVariables['key']) . '%'))
+                $queryBuilder->expr()->like($tableConf['slugField'], $queryBuilder->createNamedParameter('%' . $queryBuilder->escapeLikeWildcards($filterVariables['key']) . '%'))
             );
         }
 
         // If a PID is given via TypoScript configuration
-        if($tableConf['pid']){
+        if ($tableConf['pid']) {
             $query->where(
                 $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($tableConf['pid'], \PDO::PARAM_INT))
             );
         }
 
         $statement = $query->execute();
-        $output = array();
+        $output = [];
         while ($row = $statement->fetch()) {
             $row['icon'] = $tableConf['icon'];
             $row['slugField'] = $row[$tableConf['slugField']];
@@ -65,5 +68,4 @@ class ExtensionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
         }
         return $output;
     }
-
 }

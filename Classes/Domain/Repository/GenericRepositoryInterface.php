@@ -2,7 +2,8 @@
 
 namespace SIMONKOEHLER\Slug\Domain\Repository;
 
-interface GenericRepositoryInterface {
+interface GenericRepositoryInterface
+{
 
     /**
      * @param string $object
@@ -12,5 +13,4 @@ interface GenericRepositoryInterface {
      * @return string
      */
     public static function getRouteFieldResult(string $object, string $id, array $routeFieldResultNames, string $routeFieldResult): string;
-
 }

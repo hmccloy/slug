@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace SIMONKOEHLER\Slug\Routing\Aspect;
 
@@ -10,8 +11,6 @@ use TYPO3\CMS\Core\Routing\Aspect\PersistedMappableAspectInterface;
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
 use TYPO3\CMS\Core\Routing\Legacy\PersistedAliasMapperLegacyTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-
 
 /**
  * Classic usage when using a "URL segment" (e.g. slug) field without external data.
@@ -32,9 +31,8 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
  *           object: 'event'
  *           routeFieldResult: '{title}'
  */
-
-class GenericMapper implements PersistedMappableAspectInterface, StaticMappableAspectInterface {
-
+class GenericMapper implements PersistedMappableAspectInterface, StaticMappableAspectInterface
+{
     use PersistedAliasMapperLegacyTrait;
 
     protected const PATTERN_RESULT = '#\{(?P<fieldName>[^}]+)\}#';
@@ -60,7 +58,7 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
     protected $object;
 
     /**
-     * @var string 
+     * @var string
      */
     protected $tableName = 'tx_slug_mapping';
 
@@ -79,7 +77,6 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
      */
     protected $routeFieldResultNames;
 
-
     /**
      * @param array $settings
      * @throws \InvalidArgumentException
@@ -93,7 +90,7 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
             $this->mapperKey = $this->settings['mapper'];
         } else {
             throw new \InvalidArgumentException(
-                'Unknown mapper: '.$this->settings['mapper'],
+                'Unknown mapper: ' . $this->settings['mapper'],
                 1537277133
             );
         }
@@ -102,9 +99,9 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
                 'object must be string',
                 1537277133
             );
-        } else {
-            $this->object = $this->settings['object'];
         }
+        $this->object = $this->settings['object'];
+
         if (is_string($this->settings['prependSlashInSlug'])) {
             $this->prependSlashInSlug = (strtolower($this->settings['prependSlashInSlug']) == 'true');
         }
@@ -120,7 +117,6 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
 
         $this->routeFieldResult = $this->settings['routeFieldResult'];
         $this->routeFieldResultNames = $routeFieldResultNames['fieldName'] ?? [];
-
     }
 
     /**
@@ -130,21 +126,17 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
     {
         if ($routeField = $this->findByIdentifier($value)) {
             return $routeField['slug'];
-        } else {
-            // Retrieve new value
-            if ($identifier = $this->mapper::getRouteFieldResult($this->object, $value, $this->routeFieldResultNames, $this->routeFieldResult)) {
-                if ($slug = $this->unify($this->sanitize($identifier))) {
-                    $this->persist($value, $slug);
-                    return $slug;
-                } else {
-                    return $value;
-                }
-            } else {
-                return $value;
-            }
         }
+        // Retrieve new value
+        if ($identifier = $this->mapper::getRouteFieldResult($this->object, $value, $this->routeFieldResultNames, $this->routeFieldResult)) {
+            if ($slug = $this->unify($this->sanitize($identifier))) {
+                $this->persist($value, $slug);
+                return $slug;
+            }
+            return $value;
+        }
+        return $value;
     }
-
 
     /**
      * {@inheritdoc}
@@ -153,11 +145,9 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
     {
         if ($routeField = $this->findByRouteFieldValue($value)) {
             return $routeField['object_id'];
-        } else {
-            return null;
         }
+        return null;
     }
-
 
     /**
      * @return QueryBuilder
@@ -180,15 +170,16 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
             ->select('*')
             ->where(
                 $queryBuilder->expr()->eq(
-                'object_name',
-                $queryBuilder->createNamedParameter($this->getbObjectName(), \PDO::PARAM_STR)
-            ))
+                    'object_name',
+                    $queryBuilder->createNamedParameter($this->getbObjectName(), \PDO::PARAM_STR)
+                )
+            )
             ->andWhere(
                 $queryBuilder->expr()->eq(
                     'slug',
-                $queryBuilder->createNamedParameter($value, \PDO::PARAM_STR)
-                    
-            ))
+                    $queryBuilder->createNamedParameter($value, \PDO::PARAM_STR)
+                )
+            )
             ->execute()
             ->fetch();
         return $result !== false ? $result : null;
@@ -207,7 +198,8 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
                 $queryBuilder->expr()->eq(
                     'object_name',
                     $queryBuilder->createNamedParameter($this->getbObjectName(), \PDO::PARAM_STR)
-                ))
+                )
+            )
             ->andWhere($queryBuilder->expr()->eq(
                 'object_id',
                 $queryBuilder->createNamedParameter($value, \PDO::PARAM_STR)
@@ -217,12 +209,12 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
         return $result !== false ? $result : null;
     }
 
-
     /**
      * @param $identifier
      * @param $slug
      */
-    protected function persist($identifier, $slug) {
+    protected function persist($identifier, $slug)
+    {
         $queryBuilder = $this->createQueryBuilder();
         $queryBuilder
             ->insert($this->tableName)
@@ -235,7 +227,6 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
             ])
             ->execute();
     }
-
 
     /**
      * Cleans a slug value so it is used directly in the path segment of a URL.
@@ -282,11 +273,12 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
      * @param $slug
      * @return string
      */
-    private function unify($slug) {
+    private function unify($slug)
+    {
         $originalSlug = $slug;
         $count = 1;
         while ($check = $this->findByRouteFieldValue($slug)) {
-            $slug = $originalSlug.'-'.$count;
+            $slug = $originalSlug . '-' . uniqid();
             $count++;
         }
         return $slug;
@@ -295,8 +287,8 @@ class GenericMapper implements PersistedMappableAspectInterface, StaticMappableA
     /**
      * @return string
      */
-    private function getbObjectName() {
+    private function getbObjectName()
+    {
         return sprintf('%s_%s', $this->mapperKey, $this->object);
     }
-
 }

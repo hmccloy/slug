@@ -1,6 +1,7 @@
 <?php
+
 if (!defined('TYPO3_MODE')) {
-  die ('Access denied.');
+    die('Access denied.');
 }
 
 /*
@@ -9,11 +10,11 @@ if (!defined('TYPO3_MODE')) {
  */
 
 // Configure new fields:
-$fields = array(
-  'tx_slug_locked' => array(
+$fields = [
+  'tx_slug_locked' => [
     'label' => 'LLL:EXT:slug/Resources/Private/Language/locallang_db.xlf:tx_slug_domain_model_page.slug_lock',
     'exclude' => 1,
-    'config' => array(
+    'config' => [
         'type' => 'check',
         'renderType' => 'checkboxToggle',
         'items' => [
@@ -24,9 +25,9 @@ $fields = array(
                 'labelUnchecked' => 'Disabled',
             ]
         ],
-    ),
-  )
-);
+    ],
+  ]
+];
 
 // Add new fields to pages:
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $fields);

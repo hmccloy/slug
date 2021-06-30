@@ -59,12 +59,16 @@ td.slug-input{
     color: $green;
 }
 
-.f3-widget-paginator{
+.pagination {
     clear: both;
     display: block;
     margin: 0;
     padding: 0;
-    li{
+    > li {
+        float: left;
+        padding: 0 20px;
+    }
+    .pages li {
         display: inline-block;
         padding: 10px 15px;
         &.current{
@@ -75,6 +79,7 @@ td.slug-input{
         }
     }
 }
+
 
 tr.record-info-row{
     display: none;
