@@ -33,7 +33,7 @@
     </f:form>
 
 
-    <f:widget.paginate objects="{pages}" as="pagesPaginated" configuration="{addQueryStringMethod: 'POST,GET', itemsPerPage: filter.maxentries, insertAbove: 1, maximumNumberOfLinks: 10}">
+    <f:widget.paginate objects="{pages}" as="pagesPaginated" configuration="{addQueryStringMethod: 'GET', itemsPerPage: filter.maxentries, insertAbove: 1, maximumNumberOfLinks: 10}">
         <table class="table table-hover">
             <tr>
                 <th colspan="2"><span class="badge badge-info record-count" title="Number of records in the current view"></span></th>
