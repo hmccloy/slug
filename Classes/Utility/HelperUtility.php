@@ -22,7 +22,7 @@ class HelperUtility {
 
         if(file_exists($filePath)){
             include $filePath;
-            return $EM_CONF[$_EXTKEY];
+            return $EM_CONF[$extKey];
         }
         else{
             return false;
