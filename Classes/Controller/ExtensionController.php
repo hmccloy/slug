@@ -96,7 +96,9 @@ class ExtensionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
                     'table' => $table,
                     'slugField' => $this->settings['additionalTables'][$table]['slugField'],
                     'titleField' => $this->settings['additionalTables'][$table]['titleField'],
-                    'label' => $this->settings['additionalTables'][$table]['label']
+                    'addTitleField' => $this->settings['additionalTables'][$table]['addTitleField'],
+                    'label' => $this->settings['additionalTables'][$table]['label'],
+                    'disableRefresh' => $this->settings['additionalTables'][$table]['disableRefresh']
                 ]);
             }
             else{
