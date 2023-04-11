@@ -4,11 +4,18 @@ declare(strict_types = 1);
 namespace SIMONKOEHLER\Slug\Routing\Aspect;
 
 use TYPO3\CMS\Core\Charset\CharsetConverter;
+use TYPO3\CMS\Core\Context\ContextAwareInterface;
+use TYPO3\CMS\Core\Context\ContextAwareTrait;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Routing\Aspect\AspectTrait;
 use TYPO3\CMS\Core\Routing\Aspect\PersistedMappableAspectInterface;
+use TYPO3\CMS\Core\Routing\Aspect\SiteAccessorTrait;
+use TYPO3\CMS\Core\Routing\Aspect\SiteLanguageAccessorTrait;
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
 use TYPO3\CMS\Core\Routing\Legacy\PersistedAliasMapperLegacyTrait;
+use TYPO3\CMS\Core\Site\SiteAwareInterface;
+use TYPO3\CMS\Core\Site\SiteLanguageAwareInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
@@ -33,7 +40,12 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
  *           routeFieldResult: '{title}'
  */
 
-class GenericMapper implements PersistedMappableAspectInterface {
+class GenericMapper implements PersistedMappableAspectInterface, StaticMappableAspectInterface, ContextAwareInterface, SiteLanguageAwareInterface, SiteAwareInterface
+{
+    use AspectTrait;
+    use SiteLanguageAccessorTrait;
+    use SiteAccessorTrait;
+    use ContextAwareTrait;
 
     protected const PATTERN_RESULT = '#\{(?P<fieldName>[^}]+)\}#';
 
@@ -190,7 +202,7 @@ class GenericMapper implements PersistedMappableAspectInterface {
 
             ))
             ->execute()
-            ->fetch();
+            ->fetchAssociative();
         return $result !== false ? $result : null;
     }
 
@@ -213,7 +225,7 @@ class GenericMapper implements PersistedMappableAspectInterface {
                 $queryBuilder->createNamedParameter($value, \PDO::PARAM_STR)
             ))
             ->execute()
-            ->fetch();
+            ->fetchAssociative();
         return $result !== false ? $result : null;
     }
 
