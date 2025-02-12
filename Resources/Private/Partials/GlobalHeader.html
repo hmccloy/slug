@@ -21,7 +21,7 @@
                     </f:link.action>
                 </f:if>
                 <f:if condition="{backendConfiguration.recordEnabled}">
-                    <f:for each="{additionalTables}" as="table" key="label">
+                    <f:for each="{settings.additionalTables}" as="table" key="label">
                         <f:link.action action="additionalTable" controller="Extension" class="btn btn-primary" arguments="{table:label}">
                             <f:if condition="{table.icon}">
                                 <f:then>

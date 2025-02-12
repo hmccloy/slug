@@ -33,6 +33,7 @@ class HelperUtility {
 
     // Gets the correct flag icon for any given language uid
     public function getFlagIconByLanguageUid($sys_language_uid) {
+        $output = '';
         foreach ($this->getLanguages() as $value) {
             if($value['uid'] === $sys_language_uid){
                 $output = $value['flag'];
@@ -63,6 +64,7 @@ class HelperUtility {
 
 
     public function getIsoCodeByLanguageUid($sys_language_uid) {
+        $output = '';
         foreach ($this->getLanguages() as $value) {
             if($value['uid'] === $sys_language_uid){
                 $output = $value['language_isocode'];

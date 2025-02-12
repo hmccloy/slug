@@ -57,10 +57,10 @@ class ExtensionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
         $statement = $query->execute();
         $output = array();
         while ($row = $statement->fetch()) {
-            $row['icon'] = $tableConf['icon'];
+            $row['icon'] = !empty($tableConf['icon']) ? $tableConf['icon'] : 'content';
             $row['slugField'] = $row[$tableConf['slugField']];
-            $row['flag'] = $this->helper->getFlagIconByLanguageUid($row['sys_language_uid']);
-            $row['isocode'] = $this->helper->getIsoCodeByLanguageUid($row['sys_language_uid']);
+            $row['flag'] = $this->helper->getFlagIconByLanguageUid(!empty($row['sys_language_uid']) ? $row['sys_language_uid'] : 0);
+            $row['isocode'] = $this->helper->getIsoCodeByLanguageUid(!empty($row['sys_language_uid']) ? $row['sys_language_uid'] : 0);
             array_push($output, $row);
         }
         return $output;

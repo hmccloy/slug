@@ -74,7 +74,7 @@ class AjaxController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
                 $output = $siteConf['base'];
             }
 
-            if($row['isocode']){
+            if(!empty($row['isocode'])){
                 $output = $output.'/'.$pageData['isocode'];
             }
         }
